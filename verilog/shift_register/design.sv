@@ -3,12 +3,6 @@ module sfr(i_d,i_clk, o_q0, o_q1, o_q2, o_q3);
   input i_d,i_clk;
   output o_q0,o_q1,o_q2,o_q3;
   
-  wire w_d1,w_d2,w_d3;
-  
-  assign w_d1 = o_q0;
-  assign w_d2 = o_q1;
-  assign w_d3 = o_q2;
-  
   reg o_q0;
   reg o_q1;
   reg o_q2;
@@ -23,7 +17,7 @@ module sfr(i_d,i_clk, o_q0, o_q1, o_q2, o_q3);
   
   always @ (posedge i_clk)
     begin
-	  o_q3 = o_q2;
+      o_q3 = o_q2;
       o_q2 = o_q1;
       o_q1 = o_q0;
       o_q0 = i_d;
