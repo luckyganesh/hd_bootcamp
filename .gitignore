@@ -2,3 +2,6 @@ chisel/.idea
 chisel/project
 chisel/target
 chisel/test_run_dir/
+chisel/*.v
+chisel/*.fir
+chisel/*.anno.json

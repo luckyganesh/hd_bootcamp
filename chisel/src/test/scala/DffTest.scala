@@ -6,7 +6,7 @@ class DffTest(c: Dff) extends PeekPokeTester(c) {
   step(1)
   expect(c.io.out,0)
   poke(c.io.in,1)
-  expect(c.io.out,0)
+  expect(c.io.out,1)
   step(1)
   expect(c.io.out,1)
 }
