@@ -3,16 +3,17 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class CellTest(c: Cell, numberOfAliveNeighbours: Int , initialState: Int, expectedState: Int) extends PeekPokeTester(c) {
 
-  val currentStateOfNeighbours = Seq.fill(numberOfAliveNeighbours){1}++Seq.fill(8-numberOfAliveNeighbours){0}
+  val currentStateOfNeighbours = Seq.fill(numberOfAliveNeighbours){1} ++ Seq.fill(8-numberOfAliveNeighbours){0}
 
   currentStateOfNeighbours.zipWithIndex.foreach { case (neighbour, index) =>
     poke(c.io.currentStateOfNeighbours(index), neighbour)
   }
-  poke(c.io.enable, 0)
+  poke(c.io.initialize, 1)
   poke(c.io.initialState, initialState)
   step(1)
   expect(c.io.currentState, initialState)
-  poke(c.io.enable, 1)
+
+  poke(c.io.initialize, 0)
   step(1)
   expect(c.io.currentState, expectedState)
 }

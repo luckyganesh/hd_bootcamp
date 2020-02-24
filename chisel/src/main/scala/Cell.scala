@@ -4,7 +4,7 @@ class Cell(noOfNeighbourCells: Int) extends Module {
   val io = IO(new Bundle {
     val initialState = Input(Bool())
     val currentStateOfNeighbours = Input(Vec(noOfNeighbourCells, Bool()))
-    val enable = Input(Bool())
+    val initialize = Input(Bool())
     val currentState = Output(Bool())
   })
 
@@ -12,16 +12,13 @@ class Cell(noOfNeighbourCells: Int) extends Module {
 
   io.currentState := presentState
 
-  private def numberOfAliveNeighbours(): UInt = io.currentStateOfNeighbours.count(n => n)
+  private val aliveCells: UInt = io.currentStateOfNeighbours.count(n => n)
 
-  private def getNextState(): Bool = {
-    val numberOfNeighboursAlive = numberOfAliveNeighbours()
-    Mux(numberOfNeighboursAlive === 2.U, presentState, numberOfNeighboursAlive === 3.U)
-  }
+  val nextState = Mux(aliveCells === 2.U, presentState, aliveCells === 3.U)
 
-  when(io.enable) {
-    presentState := getNextState()
-  }.otherwise {
+  when(io.initialize) {
     presentState := io.initialState
+  }.otherwise {
+    presentState := nextState
   }
 }
